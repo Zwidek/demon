@@ -25,8 +25,8 @@ bool excludeFileNames(struct dirent* file);
 void synchronize(char* source, char* destination, bool recursion, int size);
 void setTime(char* destinationFile, time_t modificationTime);
 void copyBiggerFiles(char* source, char* destination);
-
-bool ifSignal;
+ssize_t copy_file_range(int fd_in, off_t *off_in, int fd_out, off_t *off_out,size_t len, unsigned int flags);
+ bool ifSignal;
 int daemonTime;
 
 int main(int argc, char* argv[]) {
@@ -192,13 +192,17 @@ bool validateGivenPath(char* argv)
 // usuwanie
 void deleteExtra(char* source, char* destination)
 {
-	DIR* sourceDirectory = opendir(source);
-	DIR* destinationDirectory = opendir(destination);	
+	DIR* sourceFolder = opendir(source);
+	DIR* destinationFolder = opendir(destination);	
 	struct dirent* file = NULL;
 	char sourcePath[300];
 	char destinationPath[300];
-
-	while(file = readdir(destinationDirectory))
+	if (((sourceFolder = opendir(source)) == NULL) || ((destinationFolder = opendir(destination)) == NULL))
+	{
+		syslog(LOG_ERR,"Blad otwarcia katalogu\n");
+		exit(1);
+	}
+	while(file = readdir(destinationFolder))
 	{
 		bool check = excludeFileNames(file); // sprawdza pliki z nazwa ".", ".."
 		
@@ -250,6 +254,11 @@ void makePath(char* path, char* fileName, char* result)
 void synchronize(char* source, char* destination, bool recursion, int size){
 	DIR* sourceFolder = opendir(source);
 	DIR* destinationFolder = opendir(destination);
+	if (((sourceFolder = opendir(source)) == NULL) || ((destinationFolder = opendir(destination)) == NULL))
+	{
+		syslog(LOG_ERR,"Blad otwarcia katalogu\n");
+		exit(1);
+	}
 	struct dirent* file = NULL;
 	char sourcePath[200];
 	char destinationPath[200];
@@ -346,4 +355,3 @@ void setTime(char* destinationFile, time_t modificationTime){
 	}
 	syslog(LOG_INFO,"Prawidłowo został ustawiony czas pliku \"%s\"",destinationFile);
 }
-
