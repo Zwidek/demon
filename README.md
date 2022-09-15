@@ -1,15 +1,12 @@
-Demon synchronizujący dwa podkatalogi
+A daemon that synchronizes two subdirectories
 
+How to run and test:
 
-Sposób uruchamiania i testowania projektu:
-
-Stworzenie makefile.
 final:
     gcc main.c -o start
-
-Uruchomienie programu:
+    
 ./start -a "source_path" -b "target_path" [-R (recursion)] [-s size] [-t time]
 Przykład: ./start -a ~ /Desktop/Projekt/a -b ~ /Desktop/Projekt/ b - R -s 2048 -t 60
 
-Testowanie programu za pomocą skryptu:
+Testing by using script:
 ./test.sh
