@@ -13,16 +13,3 @@ Przykład: ./start -a ~ /Desktop/Projekt/a -b ~ /Desktop/Projekt/ b - R -s 2048 
 
 Testowanie programu za pomocą skryptu:
 ./test.sh
-
-
-Zaimplementowane funkcje:
-
-void killDeamon - uśpienie demona
-void wakeUpDeamon - obudzenie demona
-void forking - funkcja forkująca rodzica
-void validateNumberOfArguments -  sprawdzenie ilości argumentów
-void deleteExtra - funkcja usuwająca plik
-void makePath - funkcja tworząca ścieżkę
-void synchronize - funkcja synchronizująca podkatalogi
-void copy - kopiowanie pliku z katalogu źródłowego do katalogu docelowego
-void setTime - ustawienie czasu dla pliku 
